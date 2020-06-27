@@ -2,7 +2,7 @@
     <h3 class="col-6">Liste Etudiant</h3>
     <button href="<?= URLROOT ?>/etudiant/create" id="addEtudiant"
         class=" btn btn-success float-right offset-4 " data-toggle="modal"
-        data-target=".openModelEtudiant" role="button">Ajouter
+        data-target=".modalAddEtudiant" role="button">Ajouter
         Etudiant</button>
 </div>
 <p class="lead">
@@ -63,22 +63,105 @@
 </table>
 
 
-<!-- modal ajouter et Modifier-->
-<div class="modal fade openModelEtudiant" tabindex="-1" role="dialog"
+<!-- modal ajouter-->
+<div class="modal fade modalAddEtudiant" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="titreModal"></h5>
+                <h5 class="modal-title" id="titreModal">Ajouter Un Etudiant</h5>
                 <button type="button" class="close" data-dismiss="modal"
                     aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body text-dark">
-                <form method="POST" id="formUpdateOrCreateEtud">
-                    <input type="hidden" name="createOrUpdate"
-                        id='createOrUpdate'>
+                <form method="POST" id="formCreate">
+                    <input type="hidden" name="create" value="create">
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" class="form-control"
+                                name="prenom" placeholder="Prenom" id="prenom">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="nom" class="form-control"
+                                placeholder="Nom" id="nom">
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-2">
+                        <div class="input-group-append">
+
+                            <div class="col-10">
+                                <input type="email" class="form-control"
+                                    placeholder="Email" name="email" id="email">
+                            </div>
+                            <div class="col-10">
+                                <select class="form-control" id="boursier"
+                                    name="typeBourse">
+                                    <?php if (count($typeSearch) > 0) {
+                                        foreach ($selectTypeBourse as $key => $type) {
+                                            echo "<option value=" . $type . ">" . $key . "</option>";
+                                        }
+                                    } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-2">
+                        <div class="col">
+                            <input type="text" name="telephone"
+                                class="form-control"
+                                placeholder="Numero Telephone" id="telephone">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="dateNaissance"
+                                class="form-control"
+                                placeholder="Date Naissance" id="naissance">
+                        </div>
+                    </div>
+                    <div class="form-row mt-2">
+                        <div class="col">
+                            <input type="text" name="address"
+                                class="form-control" placeholder="address"
+                                id="address">
+                        </div>
+                        <div class="col">
+                            <input type="text" name='chambre'
+                                class="form-control" placeholder="chambre"
+                                id="chambre">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning"
+                            data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-success"
+                            name="create" id="btnCreate">Aouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal add etudiant-->
+
+<!-- modal Modifier-->
+<div class="modal fade openModelEtudiant" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="titreModal">Info et Modification de
+                    L'etududiant
+                </h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-dark">
+                <form method="POST" id="formUpdate">
                     <div class="form-row">
                         <div class="col">
                             <label for="prenom"
@@ -153,8 +236,9 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning"
                             data-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-success"
-                            id="btnSubmit"></button>
+                        <button type="submit" name="update"
+                            class="btn btn-success"
+                            id="btnupdate">Modifier</button>
                     </div>
                 </form>
             </div>

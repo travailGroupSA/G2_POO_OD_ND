@@ -18,10 +18,7 @@ $(document).ready(function () {
 
   //button modifier possibilite dafficher les infos et modifier
   $('.modifierEtudiant').click(function (e) {
-    document.getElementById('formUpdateOrCreateEtud').reset();
-    $('#createOrUpdate').attr('name', 'createOrUpdate').val('update');
-    $('#titreModal').html('Modifier etudiant');
-    $('#btnSubmit').html('Modifier');
+    document.getElementById('formUpdate').reset();
     var url = $(this).attr('href');
 
     $.ajax({
@@ -30,16 +27,16 @@ $(document).ready(function () {
       data: null,
       dataType: 'json',
       success: function (response) {
-        $('#formUpdateOrCreateEtud  .boursier').html('');
-        $('#formUpdateOrCreateEtud #prenom').val(response['prenom']);
-        $('#formUpdateOrCreateEtud #nom').val(response['nom']);
-        $('#formUpdateOrCreateEtud #email').val(response['mail']);
-        $('#formUpdateOrCreateEtud #address').val(response['address']);
-        $('#formUpdateOrCreateEtud #chambre').val(response['chambre']);
+        $('#formUpdate  .boursier').html('');
+        $('#formUpdate #prenom').val(response['prenom']);
+        $('#formUpdate #nom').val(response['nom']);
+        $('#formUpdate #email').val(response['mail']);
+        $('#formUpdate #address').val(response['address']);
+        $('#formUpdate #chambre').val(response['chambre']);
 
-        $('#formUpdateOrCreateEtud #telephone').val(response['telephone']);
-        $('#formUpdateOrCreateEtud #naissance').val(response['dateNaissance']);
-        $('#formUpdateOrCreateEtud  .boursier').append(
+        $('#formUpdate #telephone').val(response['telephone']);
+        $('#formUpdate #naissance').val(response['dateNaissance']);
+        $('#formUpdate  .boursier').append(
           '<br>Montant Bourse ',
           response['montantBourse']
         );
@@ -49,10 +46,28 @@ $(document).ready(function () {
 
   //button ajouter vider les donné du formulaire
   $('#addEtudiant').click(function (e) {
-    $('.updateLabel').hide();
-    $('#titreModal').html('Ajouter etudiant');
-    $('#btnSubmit').html('Ajouter');
-    $('#createOrUpdate').attr('name', 'createOrUpdate').val('create');
-    document.getElementById('formUpdateOrCreateEtud').reset();
+    document.getElementById('formCreate').reset();
   });
+
+  //ajout etudiant
+  $('#formCreate').submit(function (e) {
+    e.preventDefault();
+    let data = $(this).serialize();
+    let url = $('#addEtudiant').attr('href');
+    $.post(url, data, function (response, status) {
+      if (response) {
+        alert('Vous avez ajoute l etudiant avec succès');
+        window.location.href = redirectListeEtudiant;
+      } else {
+        alert('Veuillez vérifier les informations saisies svp!');
+      }
+    });
+  });
+
+  //update etudiant
+  $('#formUpdate').submit(function (e) {
+    e.preventDefault();
+    alert('update');
+  });
+  //end query
 });

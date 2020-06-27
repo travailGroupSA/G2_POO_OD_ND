@@ -1,5 +1,7 @@
 <?php
 require './helpers/sessions.php';
+require './helpers/functions.php';
+
 require './config/config.php';
 spl_autoload_register(function ($class) {
     $pathModels = "./models/" . $class . ".php";

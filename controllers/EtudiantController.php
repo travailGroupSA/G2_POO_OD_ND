@@ -72,4 +72,55 @@ class EtudiantController extends Controller
         }
         $this->redirect("etudiant/liste");
     }
+    public function create()
+    {
+        extract($_POST);
+        if (Validations::exist(@$create)) {
+            $datefistInscription = date("Y-m-d");
+
+            $this->datas = [
+                'prenom' => $prenom,
+                'nom' => $nom,
+                'mail' => $email,
+                'telephone' => $telephone,
+                'dateNaissance' => $dateNaissance,
+                'typeBourse' => $typeBourse,
+                'datefistInscription' => $datefistInscription
+            ];
+            Validations::isAllEmpty($this->datas);
+            Validations::isEmail($email);
+            if ($typeBourse == "pasbourse") {
+
+                $this->datas["estLoge"] = 0;
+                $this->datas["montantBourse"] = 0;
+                if (Validations::exist($address)) {
+                    $this->datas["adress"] =  $address;
+                    $this->datas["boursier"] = 0;
+                }
+            } else {
+                $this->datas["boursier"] = 1;
+                if (Validations::exist(@$chambre)) {
+                    $this->datas["estLoge"] =  1;
+                    $this->datas["chambre"] = $chambre;
+                }
+                if ($typeBourse == "entiere") {
+                    $this->datas["montantBourse"] = 40000;
+                } else {
+                    $this->datas["montantBourse"] = 20000;
+                }
+            }
+
+            if (Validations::isValid()) {
+                $matricule = generateMatricule($prenom, $nom);
+                $this->datas["matricule"] = $matricule;
+                $this->etudiant = new EtudiantManager();
+                $envoyer = $this->etudiant->insert_data($this->datas);
+                if ($envoyer) {
+                    echo json_encode('created');
+                }
+            }
+        } else {
+            $this->redirect("etudiant/liste");
+        }
+    }
 }
