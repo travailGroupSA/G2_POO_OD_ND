@@ -19,11 +19,27 @@ class EtudiantController extends Controller
 
     public function liste()
     {
-        if (isset($_POST['search'])) {
-            var_dump($_POST);
+        $etudiant = new EtudiantManager();
+        extract($_POST);
+
+        if (Validations::exist(@$search)) {
+            $condition = " WHERE " . $type . " LIKE '%" . $searched . "%'";
+            $this->etudiants = $etudiant->getDataByLimitAndOffset($condition);
+        } else {
+            $this->etudiants = $etudiant->getDataByLimitAndOffset("");
         }
-        $this->typeSearch = ["matricule", "type", "département"];
-        $data = ['typeSearch' => $this->typeSearch];
+
+        var_dump($this->etudiants);
+        die();
+        //donné a affiche 
+        $this->selectTypeBourse = ["demi-bourse" => "demi", "pension complète" => "entiere", "non boursiers" => "pasbourse"];
+        $this->typeSearch = ["matricule", "typeBourse", "département"];
+        $data = [
+            'typeSearch' => $this->typeSearch,
+            'etudiants' => $this->etudiants,
+            'selectTypeBourse' => $this->selectTypeBourse,
+        ];
+
         $this->view('admin/etudiants/liste', $data);
     }
     public function show($id)
