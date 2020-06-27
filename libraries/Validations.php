@@ -20,7 +20,13 @@ class Validations
             self::$errors[$input] = $msg;
         }
     }
-
+    public static function exist($value)
+    {
+        if (!empty($value)) {
+            return true;
+        }
+        return false;
+    }
     public static function isEmail()
     {
     }

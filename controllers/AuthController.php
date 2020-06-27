@@ -18,16 +18,25 @@ class AuthController extends Controller
                 } else {
                     //User Not Existe
                     $this->errors = ["error" => "Login Mot de Passe Incorrect"];
+                    $data = [
+                        'login' => $login,
+                        'password' => $password,
+                        'errors' => $this->errors
+                    ];
+                    $this->view('auth/login', $data);
                 }
             } else {
                 //champs Vide
                 $this->errors = ["error" => "Veuillez remplire tous les champs"];
-
-                die();
-                $this->view("auth/login",  $this->errors);
+                $data = $this->errors;
+                $data = [
+                    'errors' => $this->errors
+                ];
+                $this->view('auth/login', $data);
             }
+        } else {
+            $this->view('auth/login');
         }
-        $this->view('auth/login');
     }
 
     public function logout()
