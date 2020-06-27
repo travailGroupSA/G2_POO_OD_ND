@@ -63,4 +63,13 @@ class EtudiantController extends Controller
         ];
         echo json_encode($data);
     }
+    public function delete($matricule)
+    {
+        $this->etudiant = new EtudiantManager();
+        $this->etudiantDeleted = $this->etudiant->delete("matricule", $matricule);
+        if ($this->etudiantDeleted) {
+            $this->redirect("etudiant/liste");
+        }
+        $this->redirect("etudiant/liste");
+    }
 }
