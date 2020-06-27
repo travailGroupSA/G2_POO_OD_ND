@@ -33,7 +33,7 @@ abstract class Manager implements IReservation
     //Executer une requete(Insert,Update,delete)
     public function executeUpdate($sql)
     {
-        $this->getConnexion();
+        $this->pdo = $this->getConnexion();
         $nbreLigne = $this->pdo->exec($sql);
         $this->closeConnexion();
         return $nbreLigne;
@@ -58,17 +58,18 @@ abstract class Manager implements IReservation
         return $dataObject;
     }
 
-    //requeste select
-    public function getALl()
+    //select les donne avec la clause limit et offset
+    public function getDataByLimitAndOffset($condition, $limit = 5, $offset = 0)
     {
-        $sql = "select * from $this->tableName";
-        $data = $this->executeSelect($sql);
+        $sql = "SELECT * FROM " . $this->tableName . "  " . $condition . " LIMIT " . $limit . " OFFSET " . $offset;
+        $dataObejct = $this->executeSelect($sql);
+        return $dataObejct;
     }
 
     //requete select avec la clause where
     public function getUnique($item, $value)
     {
-        $sql = "select * from $this->tableName where " . $item . "=" . $value;
+        $sql = "SELECT * FROM " . $this->tableName . " WHERE " . $item . "='" . $value . "'";
         $data = $this->executeSelect($sql);
         return count($data) == 1 ? $data[0] : $data;
     }
@@ -76,7 +77,53 @@ abstract class Manager implements IReservation
     //requeste suppression
     public function delete($item, $value)
     {
-        $sql = "delete from $this->tableName where " . $item . "=" . $value;
+        $sql = 'DELETE FROM ' . $this->tableName . ' WHERE ' . $item . '="' . $value . '"';
+        var_dump($sql);
         return $this->executeUpdate($sql) != 0;
+    }
+
+
+    function insert_data($data)
+    {
+        $placeholders = array_fill(0, count($data), '?');
+
+        $keys = $values = array();
+        foreach ($data as $k => $v) {
+            $keys[] = $k;
+            $values[] = !empty($v) ? $v : null;
+        }
+
+        // requete
+        $query = 'INSERT INTO `' . $this->tableName . '` ' .
+            '(' . implode(',', $keys) . ') VALUES ' .
+            '(' . implode(',', $placeholders) . ')';
+        $this->pdo = $this->getConnexion();
+        $this->stmt = $this->pdo->prepare($query);
+        if ($this->stmt->execute($values)) {
+            $this->closeConnexion();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function update($condition, $fields)
+    {
+        //initialise le nombre de valeur a modifier
+        $set = '';
+        //ajoute une virgule apres chaque set si on a plusieur valeur a modifier
+        $countRow = 1;
+
+        foreach ($fields as $name => $value) {
+            $set .= "{$name} = \"{$value}\"";
+            if ($countRow < count($fields)) {
+                $set .= ',';
+            }
+            $countRow++;
+        }
+        $sql = "UPDATE " . $this->tableName . " SET {$set} WHERE " . $condition;
+        var_dump($sql);
+        die();
+        return $this->executeUpdate($sql);
     }
 }
