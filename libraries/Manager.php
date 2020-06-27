@@ -59,7 +59,7 @@ abstract class Manager implements IReservation
     }
 
     //select les donne avec la clause limit et offset
-    public function getDataByLimitAndOffset($condition, $limit = 5, $offset = 0)
+    public function getDataByLimitAndOffset($condition, $limit = 20, $offset = 0)
     {
         $sql = "SELECT * FROM " . $this->tableName . "  " . $condition . " LIMIT " . $limit . " OFFSET " . $offset;
         $dataObejct = $this->executeSelect($sql);
@@ -78,7 +78,6 @@ abstract class Manager implements IReservation
     public function delete($item, $value)
     {
         $sql = 'DELETE FROM ' . $this->tableName . ' WHERE ' . $item . '="' . $value . '"';
-        var_dump($sql);
         return $this->executeUpdate($sql) != 0;
     }
 

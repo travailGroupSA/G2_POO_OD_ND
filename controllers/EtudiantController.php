@@ -67,6 +67,7 @@ class EtudiantController extends Controller
         echo json_encode($data);
     }
 
+
     //suprimer un etudiant
     public function delete($matricule)
     {
@@ -116,7 +117,6 @@ class EtudiantController extends Controller
                     $this->datas["montantBourse"] = 20000;
                 }
             }
-
             if (Validations::isValid()) {
                 $matricule = generateMatricule($prenom, $nom);
                 $this->datas["matricule"] = $matricule;
@@ -140,7 +140,6 @@ class EtudiantController extends Controller
                 array_push($data, [$key => $value]);
             }
         };
-
         if ($data) {
             $this->etudiant = new EtudiantManager();
             $updated = $this->etudiantUpdate = $this->etudiant->update('matricule="' . $matricule . '"', $data);
