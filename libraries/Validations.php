@@ -20,6 +20,16 @@ class Validations
             self::$errors[$input] = $msg;
         }
     }
+    public static function isAllEmpty($data)
+    {
+        foreach ($data as $key => $value) {
+            //key=> champs $value=> value du champs
+            if (empty($value)) {
+                self::$errors[$key] = "le Champ " . $key . " est obligattoire";
+            }
+        }
+    }
+
     public static function exist($value)
     {
         if (!empty($value)) {
@@ -27,7 +37,10 @@ class Validations
         }
         return false;
     }
-    public static function isEmail()
+    public static function isEmail($email)
     {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            self::$errors['email'] = "Email invalide";
+        }
     }
 }
