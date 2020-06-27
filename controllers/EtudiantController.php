@@ -40,8 +40,27 @@ class EtudiantController extends Controller
 
         $this->view('admin/etudiants/liste', $data);
     }
-    public function show($id)
+    public function show($matricule)
     {
-        echo "id " . $id;
+        $this->etudiant = new EtudiantManager();
+        $this->etudiantFound =  $this->etudiant->getUnique('matricule', $matricule);
+        // var_dump($this->etudiantFound);
+        $data = [
+            'matricule' => $this->etudiantFound->getMatricule(),
+            'prenom' => $this->etudiantFound->getPrenom(),
+            'nom' => $this->etudiantFound->getNom(),
+            'mail' => $this->etudiantFound->getMail(),
+            'telephone' => $this->etudiantFound->getTelephone(),
+            'dateNaissance' => $this->etudiantFound->getDateNaissance(),
+            'boursier' => $this->etudiantFound->getBoursier(),
+            'typeBourse' => $this->etudiantFound->getTypeBourse(),
+            'montantBourse' => $this->etudiantFound->getMontantBourse(),
+            'estLoge' => $this->etudiantFound->getEstLoge(),
+            'datefistInscription' => $this->etudiantFound->getDatefistInscription(),
+            'chambre' => $this->etudiantFound->getChambre(),
+            'address' => $this->etudiantFound->getAddress()
+
+        ];
+        echo json_encode($data);
     }
 }

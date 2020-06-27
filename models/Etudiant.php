@@ -13,6 +13,8 @@ class Etudiant extends Model
     private $montantBourse;
     private $estLoge;
     private $datefistInscription;
+    private $chambre;
+    private $address;
     public function __construct($data = [])
     {
         $this->hydrate($data);
@@ -234,6 +236,46 @@ class Etudiant extends Model
     public function setTelephone($telephone)
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of chambre
+     */
+    public function getChambre()
+    {
+        return $this->chambre;
+    }
+
+    /**
+     * Set the value of chambre
+     *
+     * @return  self
+     */
+    public function setChambre($chambre)
+    {
+        $this->chambre = $chambre;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set the value of address
+     *
+     * @return  self
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
 
         return $this;
     }
