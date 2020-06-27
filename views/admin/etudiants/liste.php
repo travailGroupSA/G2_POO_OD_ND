@@ -162,6 +162,7 @@
             </div>
             <div class="modal-body text-dark">
                 <form method="POST" id="formUpdate">
+                    <input type="hidden" id="rooturl" value="<?= URLROOT ?>">
                     <div class="form-row">
                         <div class="col">
                             <label for="prenom"
@@ -183,7 +184,7 @@
                                 <label for="email"
                                     class="updateLabel">*Mail</label>
                                 <input type="email" class="form-control"
-                                    placeholder="Email" name="email" id="email">
+                                    placeholder="Email" name="mail" id="email">
                             </div>
                             <div class="col-10">
                                 <label for="boursier"

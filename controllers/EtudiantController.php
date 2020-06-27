@@ -17,6 +17,7 @@ class EtudiantController extends Controller
         $this->view('admin/index');
     }
 
+    //lister les etudiants
     public function liste()
     {
         $etudiant = new EtudiantManager();
@@ -40,6 +41,8 @@ class EtudiantController extends Controller
 
         $this->view('admin/etudiants/liste', $data);
     }
+
+    //afficher les info d'un etudiant
     public function show($matricule)
     {
         $this->etudiant = new EtudiantManager();
@@ -63,6 +66,8 @@ class EtudiantController extends Controller
         ];
         echo json_encode($data);
     }
+
+    //suprimer un etudiant
     public function delete($matricule)
     {
         $this->etudiant = new EtudiantManager();
@@ -72,6 +77,8 @@ class EtudiantController extends Controller
         }
         $this->redirect("etudiant/liste");
     }
+
+    //create des etudiants
     public function create()
     {
         extract($_POST);
@@ -121,6 +128,25 @@ class EtudiantController extends Controller
             }
         } else {
             $this->redirect("etudiant/liste");
+        }
+    }
+
+    //modifier un etudiant
+    public function update($matricule)
+    {
+        $data = [];
+        foreach ($_POST as $key => $value) {
+            if (!empty($value) && $value != 'update') {
+                array_push($data, [$key => $value]);
+            }
+        };
+
+        if ($data) {
+            $this->etudiant = new EtudiantManager();
+            $updated = $this->etudiantUpdate = $this->etudiant->update('matricule="' . $matricule . '"', $data);
+            if ($updated) {
+                echo json_encode('updated');
+            }
         }
     }
 }

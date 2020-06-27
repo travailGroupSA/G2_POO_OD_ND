@@ -114,16 +114,16 @@ abstract class Manager implements IReservation
         //ajoute une virgule apres chaque set si on a plusieur valeur a modifier
         $countRow = 1;
 
-        foreach ($fields as $name => $value) {
-            $set .= "{$name} = \"{$value}\"";
-            if ($countRow < count($fields)) {
-                $set .= ',';
+        foreach ($fields as $indicArr => $array) {
+            foreach ($array as $name => $value) {
+                $set .= "{$name}=\"{$value}\"";
+                if ($countRow < count($fields)) {
+                    $set .= ',';
+                }
+                $countRow++;
             }
-            $countRow++;
         }
-        $sql = "UPDATE " . $this->tableName . " SET {$set} WHERE " . $condition;
-        var_dump($sql);
-        die();
+        $sql = "UPDATE " . $this->tableName . " SET {$set} WHERE " . $condition . " ";
         return $this->executeUpdate($sql);
     }
 }

@@ -20,6 +20,7 @@ $(document).ready(function () {
   $('.modifierEtudiant').click(function (e) {
     document.getElementById('formUpdate').reset();
     var url = $(this).attr('href');
+    $('#titreModal').append(` ${matricule}`);
 
     $.ajax({
       type: 'POST',
@@ -67,7 +68,16 @@ $(document).ready(function () {
   //update etudiant
   $('#formUpdate').submit(function (e) {
     e.preventDefault();
-    alert('update');
+    let data = $(this).serialize();
+    let url = $('.modifierEtudiant').attr('id');
+    $.post(url, data, function (response, status) {
+      if (response) {
+        alert('Vous avez modifier l etudiant avec succès');
+        window.location.href = redirectListeEtudiant;
+      } else {
+        alert('Veuillez vérifier les informations saisies svp!');
+      }
+    });
   });
   //end query
 });
