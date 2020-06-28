@@ -14,7 +14,7 @@ abstract class Manager
         if ($this->pdo == null) {
             try {
                 // $this->pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
-                $this->pdo = new PDO("mysql:host=localhost;dbname=saallocation", "root", "");
+                $this->pdo = new PDO("mysql:host=mysql-grouptravail.alwaysdata.net;dbname=grouptravail_allocation", "209565", "grouptravail");
                 $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             } catch (PDOException $ex) {
                 var_dump($ex->getMessage());

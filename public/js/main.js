@@ -5,7 +5,14 @@ $(document).ready(function () {
 
   let rooturl = $('#rooturl').val();
   let redirectListeEtudiant = `${rooturl}/etudiant/liste`;
-  // scroll
+  //validate num
+  function validateNum(num) {
+    let RE = /^7[05678]{1}[0-9]{7}$/;
+    if (!RE.test(num)) {
+      return false;
+    }
+    return true;
+  }
 
   //supprimer un etudiant
   $('.supprimerEtudiant').click(function (e) {
@@ -53,16 +60,22 @@ $(document).ready(function () {
   //ajout etudiant
   $('#formCreate').submit(function (e) {
     e.preventDefault();
+    let numTel = $('#telephone').val();
+
     let data = $(this).serialize();
     let url = $('#addEtudiant').attr('href');
-    $.post(url, data, function (response, status) {
-      if (response) {
-        alert('Vous avez ajoute l etudiant avec succès');
-        window.location.href = redirectListeEtudiant;
-      } else {
-        alert('Veuillez vérifier les informations saisies svp!');
-      }
-    });
+    if (validateNum(numTel)) {
+      $.post(url, data, function (response, status) {
+        if (response) {
+          alert('Vous avez ajoute l etudiant avec succès');
+          window.location.href = redirectListeEtudiant;
+        } else {
+          alert('Veuillez vérifier les informations saisies svp!');
+        }
+      });
+    } else {
+      alert('le numero est invalide');
+    }
   });
 
   //update etudiant
