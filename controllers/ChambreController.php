@@ -6,6 +6,7 @@ class ChambreController extends Controller
     public  function __construct()
     {
         $this->layout = 'admin/admin';
+        $this->folder = 'admin/chambre';
         if (!Sessions::get('admin')) {
             $this->layout = 'base';
             $this->redirect();
@@ -13,9 +14,10 @@ class ChambreController extends Controller
         }
     }
 
-    public function liste()
+    public function listchambre()
     {
-
-        $this->view('admin/chambres/liste');
+        // $this->view = 'listeChambres';
+        // $this->getView();
+        $this->view('admin/chambres/listeChambres');
     }
 }

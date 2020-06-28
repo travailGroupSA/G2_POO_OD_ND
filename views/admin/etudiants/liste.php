@@ -193,7 +193,8 @@
                                 <label for="boursier"
                                     class="updateLabel boursier">Boursier</label>
                                 <select class="form-control" id="boursier"
-                                    name="typeBourse">
+                                    name="typeBourse">"<option>type Bourse...
+                                    </option>
                                     <?php if (count($typeSearch) > 0) {
                                         foreach ($selectTypeBourse as $key => $type) {
                                             echo "<option value=" . $type . ">" . $key . "</option>";

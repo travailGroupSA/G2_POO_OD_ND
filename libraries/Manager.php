@@ -1,5 +1,5 @@
 <?php
-abstract class Manager implements IReservation
+abstract class Manager
 {
     //Connexion est Fermée
     private $pdo = null;
@@ -8,21 +8,23 @@ abstract class Manager implements IReservation
 
 
     //Connexion a la db
-    private function getConnexion()
+    public function getConnexion()
     {
         //teste si la connexion est formée sinon, On crée une instance de PDO
         if ($this->pdo == null) {
             try {
-                $this->pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+                // $this->pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+                $this->pdo = new PDO("mysql:host=localhost;dbname=saallocation", "root", "");
                 $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             } catch (PDOException $ex) {
+                var_dump($ex->getMessage());
                 die("Erreur de Connexion");
             }
         }
         return $this->pdo;
     }
     //Fermer Connexion
-    private function closeConnexion()
+    public function closeConnexion()
     {
 
         if ($this->pdo != null) {
@@ -59,7 +61,7 @@ abstract class Manager implements IReservation
     }
 
     //select les donne avec la clause limit et offset
-    public function getDataByLimitAndOffset($condition, $limit = 20, $offset = 0)
+    public function getDataByLimitAndOffset($condition, $limit = 10, $offset = 0)
     {
         $sql = "SELECT * FROM " . $this->tableName . "  " . $condition . " LIMIT " . $limit . " OFFSET " . $offset;
         $dataObejct = $this->executeSelect($sql);
@@ -124,5 +126,12 @@ abstract class Manager implements IReservation
         }
         $sql = "UPDATE " . $this->tableName . " SET {$set} WHERE " . $condition . " ";
         return $this->executeUpdate($sql);
+    }
+
+    public function findAll()
+    {
+        $sql = "select * from $this->tableName";
+        $data = $this->executeSelect($sql);
+        return $data;
     }
 }

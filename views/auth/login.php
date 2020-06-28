@@ -9,16 +9,14 @@
         </button>
     </div>
     <?php endif ?>
-    <form method="POST" class="col-8 offset-2">
+    <form method="POST" class="col-6 offset-3">
         <div class="form-group">
-            <label for="login">Login</label>
             <input type="text" class="form-control" id="login" name="login"
-                value="<?= $login ?? "" ?>">
+                value="<?= $login ?? "" ?>" placeholder="Login">
         </div>
         <div class=" form-group">
-            <label for="pwd">Password</label>
             <input type="password" name="password" class="form-control" id="pwd"
-                value="<?= $password ?? "" ?>">
+                value="<?= $password ?? "" ?>" placeholder="Password">
         </div>
         <button type="submit" class="btn col-12 btn-log btn-primary"
             name="connecter">Connecter</button>

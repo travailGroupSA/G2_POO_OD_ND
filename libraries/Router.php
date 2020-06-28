@@ -20,7 +20,7 @@ class Router
 
         $this->currentController = new $this->currentController();
         if (isset($url[1])) {
-            if (method_exists($this->currentController, strtolower($url[1]))) {
+            if (method_exists($this->currentController, $url[1])) {
                 $this->currentMethod = strtolower($url[1]);
             } else {
                 $this->currentController = 'ErrorController';

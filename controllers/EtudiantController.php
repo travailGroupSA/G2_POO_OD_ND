@@ -27,12 +27,12 @@ class EtudiantController extends Controller
             $condition = " WHERE " . $type . " LIKE '%" . $searched . "%'";
             $this->etudiants = $etudiant->getDataByLimitAndOffset($condition);
         } else {
-            $this->etudiants = $etudiant->getDataByLimitAndOffset("");
+            $this->etudiants = $etudiant->getDataByLimitAndOffset("", 10);
         }
 
         //donné a affiche 
         $this->selectTypeBourse = ["demi-bourse" => "demi", "pension complète" => "entiere", "non boursiers" => "pasbourse"];
-        $this->typeSearch = ["matricule", "typeBourse", "département"];
+        $this->typeSearch = ["matricule", "typeBourse", "chambre"];
         $data = [
             'typeSearch' => $this->typeSearch,
             'etudiants' => $this->etudiants,
@@ -41,7 +41,21 @@ class EtudiantController extends Controller
 
         $this->view('admin/etudiants/liste', $data);
     }
+    public function listeScrolle($offset = 0)
+    {
+        $etudiant = new EtudiantManager();
+        $this->etudiants = $etudiant->getDataByLimitAndOffset("", 10, $offset);
+        //donné a affiche 
+        $this->selectTypeBourse = ["demi-bourse" => "demi", "pension complète" => "entiere", "non boursiers" => "pasbourse"];
+        $this->typeSearch = ["matricule", "typeBourse", "chambre"];
+        $data = [
+            'typeSearch' => $this->typeSearch,
+            'etudiants' => $this->etudiants,
+            'selectTypeBourse' => $this->selectTypeBourse,
+        ];
 
+        $this->loadAjaxData('admin/etudiants/scrolle', $data);
+    }
     //afficher les info d'un etudiant
     public function show($matricule)
     {
